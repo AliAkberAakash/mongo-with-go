@@ -20,3 +20,17 @@ func EnvMongoURI() string {
 
 	return mongoUri
 }
+
+func EnvDBName() string {
+	err := godotenv.Load()
+
+	if err != nil {
+		log.Fatal("Error loading env file")
+	}
+
+	var dbNamee = os.Getenv("DB")
+
+	log.Println(dbNamee)
+
+	return dbNamee
+}

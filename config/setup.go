@@ -36,3 +36,15 @@ func ConnectDB() *mongo.Client {
 
 	return client
 }
+
+func getCollection(collectionName string) *mongo.Collection {
+	db := ConnectDB()
+
+	collection := db.Database(EnvDBName()).Collection(collectionName)
+
+	return collection
+}
+
+func GetCoursesCollection() *mongo.Collection {
+	return getCollection("courses")
+}
