@@ -28,7 +28,7 @@ func EnvDBName() string {
 		log.Fatal("Error loading env file")
 	}
 
-	var dbNamee = os.Getenv("DB")
+	var dbNamee = os.Getenv("DB_NAME")
 
 	log.Println(dbNamee)
 

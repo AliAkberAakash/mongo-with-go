@@ -4,10 +4,12 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"time"
 
 	"github.com/AliAkberAakash/mongo-with-go/config"
 	"github.com/AliAkberAakash/mongo-with-go/model"
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -122,4 +124,41 @@ func getAllMovies() []primitive.M {
 	}
 
 	return movies
+}
+
+func GetAllMovies(c *gin.Context) {
+	var movies = getAllMovies()
+	c.JSON(http.StatusCreated, movies)
+}
+
+func InsertMovie(c *gin.Context) {
+	var movie model.Netflix
+
+	err := c.BindJSON(&movie)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	insertMovie(movie)
+
+	c.JSON(http.StatusCreated, "Added movie successfully")
+}
+
+func UpdateMovie(c *gin.Context) {
+
+	var moviId = c.Param("id")
+
+	markMovieAsWatched(moviId)
+
+	c.JSON(http.StatusOK, "Updated Successfully")
+}
+
+func DeleteMovie(c *gin.Context) {
+	var moviId = c.Param("id")
+
+	deleteSingleMovie(moviId)
+
+	c.JSON(http.StatusOK, "Deleted Successfully")
 }
